@@ -25,4 +25,6 @@ public interface PrinterAdapter {
     public void closeConnectionIfExists();
 
     public void printRawData(String rawBase64Data, Callback errorCallback);
+
+    public void printImage(String rawBase64Data,int width, Callback errorCallback);
 }

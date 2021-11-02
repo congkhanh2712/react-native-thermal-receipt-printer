@@ -184,4 +184,7 @@ public class BLEPrinterAdapter implements PrinterAdapter{
             }
         }).start();
     }
+
+    public void printImage(String image,int width, Callback errorCallback) {
+    }
 }

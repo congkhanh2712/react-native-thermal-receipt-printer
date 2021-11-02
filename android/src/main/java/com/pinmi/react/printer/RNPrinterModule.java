@@ -34,5 +34,7 @@ public interface RNPrinterModule {
     @ReactMethod
     public void printRawData(String base64Data, Callback errorCallback) ;
 
+    @ReactMethod
+    public void printImage(String base64Data,int width, Callback errorCallback) ;
 }
 
