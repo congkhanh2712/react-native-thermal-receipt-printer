@@ -219,7 +219,7 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         NSData *data = [[NSData alloc]initWithBase64EncodedString:base64Image options:NSDataBase64DecodingIgnoreUnknownCharacters];
         UIImage *srcImage = [UIImage imageWithData:data scale:1];
         NSLog(@"The DeCoded String is - %@", data);
-        NSData *jpgData = UIImageJPEGRepresentation(srcImage, 1);
+        NSData *jpgData = UIImagePNGRepresentation(srcImage, 1);
         UIImage *jpgImage = [[UIImage alloc] initWithData:jpgData];
         NSInteger imgHeight = jpgImage.size.height;
         NSInteger imgWidth = jpgImage.size.width;
@@ -235,14 +235,14 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         NSLog(@"Width  after scale 2 is  - %i", size.width);
         NSLog(@"Height 2  is - %i", size.height);
 
-        unsigned char * graImage = [self imageToGreyImage:scaled];
-        unsigned char * formatedData = [self format_K_threshold:graImage width: imgWidthUpdate height: imgHeightUpdate];
-        NSData *dataToPrint = [self eachLinePixToCmd:formatedData nWidth: imgWidthUpdate nHeight: imgHeightUpdate nMode:0];
-        NSLog(@"dataToPrint Image is - %@", dataToPrint);
+        // unsigned char * graImage = [self imageToGreyImage:scaled];
+        // unsigned char * formatedData = [self format_K_threshold:graImage width: imgWidthUpdate height: imgHeightUpdate];
+        // NSData *dataToPrint = [self eachLinePixToCmd:formatedData nWidth: imgWidthUpdate nHeight: imgHeightUpdate nMode:0];
+        // NSLog(@"dataToPrint Image is - %@", dataToPrint);
 //      NSString *hexToPrint = [self serializeDeviceToken: dataToPrint];
-        NSString *hexToPrint = [dataToPrint hexString];
-        NSLog(@"hexToPrint Image is - %@", hexToPrint);
-           [[PrinterSDK defaultPrinterSDK] sendHex:hexToPrint];
+        // NSString *hexToPrint = [dataToPrint hexString];
+        // NSLog(@"hexToPrint Image is - %@", hexToPrint);
+           [[PrinterSDK defaultPrinterSDK] printImage:scaled];
            [[PrinterSDK defaultPrinterSDK] cutPaper] ;
 
     } @catch (NSException *exception) {
