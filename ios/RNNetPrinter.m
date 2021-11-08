@@ -219,7 +219,7 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         NSData *data = [[NSData alloc]initWithBase64EncodedString:base64Image options:NSDataBase64DecodingIgnoreUnknownCharacters];
         UIImage *srcImage = [UIImage imageWithData:data scale:1];
         NSLog(@"The DeCoded String is - %@", data);
-        NSData *jpgData = UIImagePNGRepresentation(srcImage, 1);
+        NSData *jpgData = UIImagePNGRepresentation(srcImage);
         UIImage *jpgImage = [[UIImage alloc] initWithData:jpgData];
         NSInteger imgHeight = jpgImage.size.height;
         NSInteger imgWidth = jpgImage.size.width;
