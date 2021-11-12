@@ -66,12 +66,18 @@ NSString *const EVENT_SCANNER_RUNNING = @"scannerRunning";
 @implementation NSData (HexRepresentation)
 
 - (NSString *)hexString {
-    const unsigned char *bytes = (const unsigned char *)self.bytes;
-    NSMutableString *hex = [NSMutableString new];
-    for (NSInteger i = 0; i < self.length; i++) {
-        [hex appendFormat:@"%02x", bytes[i]];
+    // const unsigned char *bytes = (const unsigned char *)self.bytes;
+    const unsigned char *bytes = (const unsigned char *)[self bytes];
+    // NSMutableString *hex = [NSMutableString new];
+    NSUInteger          dataLength  = [self length];
+    NSMutableString *hex = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    // for (NSInteger i = 0; i < self.length; i++) {
+      for (int i = 0; i < dataLength; ++i) {
+        // [hex appendFormat:@"%02x", bytes[i]];
+        [hex appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)bytes[i]]];
     }
-    return [hex copy];
+    // return [hex copy];
+    return [NSString stringWithString:hex];
 }
 
 @end
@@ -219,7 +225,7 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         NSData *data = [[NSData alloc]initWithBase64EncodedString:base64Image options:NSDataBase64DecodingIgnoreUnknownCharacters];
         UIImage *srcImage = [UIImage imageWithData:data scale:1];
         NSLog(@"The DeCoded String is - %@", data);
-        NSData *jpgData = UIImagePNGRepresentation(srcImage);
+        NSData *jpgData = UIImageJPEGRepresentation(srcImage, 1);
         UIImage *jpgImage = [[UIImage alloc] initWithData:jpgData];
         NSInteger imgHeight = jpgImage.size.height;
         NSInteger imgWidth = jpgImage.size.width;
@@ -234,16 +240,17 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         NSLog(@"Height is - %i", imgHeightUpdate);
         NSLog(@"Width  after scale 2 is  - %i", size.width);
         NSLog(@"Height 2  is - %i", size.height);
-
         // unsigned char * graImage = [self imageToGreyImage:scaled];
         // unsigned char * formatedData = [self format_K_threshold:graImage width: imgWidthUpdate height: imgHeightUpdate];
         // NSData *dataToPrint = [self eachLinePixToCmd:formatedData nWidth: imgWidthUpdate nHeight: imgHeightUpdate nMode:0];
         // NSLog(@"dataToPrint Image is - %@", dataToPrint);
+        // NSData *subData = [dataToPrint subdataWithRange:NSMakeRange(0, (int)(width/8))];
 //      NSString *hexToPrint = [self serializeDeviceToken: dataToPrint];
         // NSString *hexToPrint = [dataToPrint hexString];
         // NSLog(@"hexToPrint Image is - %@", hexToPrint);
-           [[PrinterSDK defaultPrinterSDK] printImage:scaled];
-           [[PrinterSDK defaultPrinterSDK] cutPaper] ;
+          [[PrinterSDK defaultPrinterSDK] setPrintWidth:width];
+          [[PrinterSDK defaultPrinterSDK] printImage:jpgImage];
+           [[PrinterSDK defaultPrinterSDK] cutPaper];
 
     } @catch (NSException *exception) {
         errorCallback(@[exception.reason]);
