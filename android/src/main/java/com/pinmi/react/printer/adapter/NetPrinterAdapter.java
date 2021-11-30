@@ -244,6 +244,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
             return;
         }
         Log.v(LOG_TAG, "image is:  " + image);
+        final boolean cut = cutPaper;
         byte[] decodeBase64ImageString = Base64.decode(image, Base64.DEFAULT);
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(decodeBase64ImageString, 0, decodeBase64ImageString.length);
         Log.d("NetPrinterModule", "decodeBase64ImageString is:  " + decodeBase64ImageString + " and bitmapImage: "
@@ -262,7 +263,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
                         OutputStream printerOutputStream = socket.getOutputStream();
                         printerOutputStream.write(data, 0, data.length);
                         printerOutputStream.write(alignCenter, 0, alignCenter.length);
-                        if (cutPaper == true) {
+                        if (cut == true) {
                             printerOutputStream.write(cutPrinter, 0, cutPrinter.length);
                         }
                         printerOutputStream.flush();
