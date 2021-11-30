@@ -15,8 +15,7 @@ import java.util.List;
 
 public interface PrinterAdapter {
 
-
-    public void init(ReactApplicationContext reactContext, Callback successCallback,  Callback errorCallback);
+    public void init(ReactApplicationContext reactContext, Callback successCallback, Callback errorCallback);
 
     public List<PrinterDevice> getDeviceList(Callback errorCallback);
 
@@ -26,5 +25,5 @@ public interface PrinterAdapter {
 
     public void printRawData(String rawBase64Data, Callback errorCallback);
 
-    public void printImage(String rawBase64Data,int width, Callback errorCallback);
+    public void printImage(String rawBase64Data, int width, boolean cutPaper, Callback errorCallback);
 }

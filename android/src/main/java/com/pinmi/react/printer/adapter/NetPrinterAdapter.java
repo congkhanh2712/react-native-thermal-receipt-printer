@@ -238,7 +238,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
     }
 
     @Override
-    public void printImage(String image, int width, Callback errorCallback) {
+    public void printImage(String image, int width, boolean cutPaper, Callback errorCallback) {
         if (this.mSocket == null) {
             errorCallback.invoke("bluetooth connection is not built, may be you forgot to connectPrinter");
             return;
@@ -253,7 +253,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
             bitmapImage = resizeImage(bitmapImage, width, false);
             final byte[] cutPrinter = selectCutPagerModerAndCutPager(66, 1);
             final byte[] data = rasterBmpToSendData(0, bitmapImage, width);
-            final byte[] alignCenter = new byte[] { 0x1B, 0x61, 0x01 };
+            final byte[] alignCenter = new byte[] { 27, 97, 1 };
             final Socket socket = this.mSocket;
             new Thread(new Runnable() {
                 @Override
@@ -262,7 +262,9 @@ public class NetPrinterAdapter implements PrinterAdapter {
                         OutputStream printerOutputStream = socket.getOutputStream();
                         printerOutputStream.write(data, 0, data.length);
                         printerOutputStream.write(alignCenter, 0, alignCenter.length);
-                        printerOutputStream.write(cutPrinter, 0, cutPrinter.length);
+                        if (cutPaper == true) {
+                            printerOutputStream.write(cutPrinter, 0, cutPrinter.length);
+                        }
                         printerOutputStream.flush();
                     } catch (IOException e) {
                         Log.e(LOG_TAG, "failed to print image");

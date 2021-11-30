@@ -222,6 +222,8 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
     @try { 
         !connected_ip ? [NSException raise:@"Invalid connection" format:@"Can't connect to printer"] : nil;
         NSInteger nWidth = [[options valueForKey:@"width"] integerValue];
+        NSNumber* cutPtr = [options valueForKey:@"cutPaper"];
+        BOOL cut = (BOOL)[cutPtr intValue];
         NSData *data = [[NSData alloc]initWithBase64EncodedString:base64Image options:NSDataBase64DecodingIgnoreUnknownCharacters];
         UIImage *srcImage = [UIImage imageWithData:data scale:1];
         NSLog(@"The DeCoded String is - %@", data);
@@ -250,7 +252,7 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         // NSLog(@"hexToPrint Image is - %@", hexToPrint);
           [[PrinterSDK defaultPrinterSDK] setPrintWidth:width];
           [[PrinterSDK defaultPrinterSDK] printImage:jpgImage];
-           [[PrinterSDK defaultPrinterSDK] cutPaper];
+           cut ? [[PrinterSDK defaultPrinterSDK] cutPaper] : nil;
 
     } @catch (NSException *exception) {
         errorCallback(@[exception.reason]);

@@ -32,36 +32,35 @@ public class RNUSBPrinterModule extends ReactContextBaseJavaModule implements RN
     @Override
     public void init(Callback successCallback, Callback errorCallback) {
         this.adapter = USBPrinterAdapter.getInstance();
-        this.adapter.init(reactContext,  successCallback, errorCallback);
+        this.adapter.init(reactContext, successCallback, errorCallback);
     }
 
     @ReactMethod
     @Override
-    public void closeConn()  {
+    public void closeConn() {
         adapter.closeConnectionIfExists();
     }
 
     @ReactMethod
     @Override
-    public void getDeviceList(Callback successCallback, Callback errorCallback)  {
+    public void getDeviceList(Callback successCallback, Callback errorCallback) {
         List<PrinterDevice> printerDevices = adapter.getDeviceList(errorCallback);
         WritableArray pairedDeviceList = Arguments.createArray();
-        if(printerDevices.size() > 0) {
+        if (printerDevices.size() > 0) {
             for (PrinterDevice printerDevice : printerDevices) {
                 pairedDeviceList.pushMap(printerDevice.toRNWritableMap());
             }
             successCallback.invoke(pairedDeviceList);
-        }else{
+        } else {
             errorCallback.invoke("No Device Found");
         }
     }
 
     @ReactMethod
     @Override
-    public void printRawData(String base64Data, Callback errorCallback){
+    public void printRawData(String base64Data, Callback errorCallback) {
         adapter.printRawData(base64Data, errorCallback);
     }
-
 
     @ReactMethod
     public void connectPrinter(Integer vendorId, Integer productId, Callback successCallback, Callback errorCallback) {
@@ -70,8 +69,8 @@ public class RNUSBPrinterModule extends ReactContextBaseJavaModule implements RN
 
     @ReactMethod
     @Override
-    public void printImage(String image,int width, Callback errorCallback) {
-        adapter.printImage(image,width, errorCallback);
+    public void printImage(String image, int width, boolean cutPaper, Callback errorCallback) {
+        adapter.printImage(image, width, cutPaper, errorCallback);
     }
 
     @Override

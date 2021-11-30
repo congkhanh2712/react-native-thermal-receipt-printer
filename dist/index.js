@@ -1,5 +1,5 @@
 var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
+    __assign = Object.assign || function (t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -210,11 +210,11 @@ export var NetPrinter = {
             });
         }
     },
-    printImage: function (data,width, onError){
+    printImage: function (data, width, cutPaper, onError) {
         if (onError === void 0) { onError = function () { }; }
         if (Platform.OS === "ios") {
             // console.log('data in printImage: ', data, width)
-            RNNetPrinter.printImage(data,{width:width}, function (error) {
+            RNNetPrinter.printImage(data, { width, cutPaper }, function (error) {
                 if (onError) {
                     onError(error);
                 }
@@ -222,7 +222,7 @@ export var NetPrinter = {
         }
         else {
             // console.log('data in printImage: ', data, width)
-            RNNetPrinter.printImage(data,width, function (error) {
+            RNNetPrinter.printImage(data, width, cutPaper, function (error) {
                 if (onError) {
                     onError(error);
                 }

@@ -18,7 +18,7 @@ public class RNNetPrinterModule extends ReactContextBaseJavaModule implements RN
     private PrinterAdapter adapter;
     private ReactApplicationContext reactContext;
 
-    public RNNetPrinterModule(ReactApplicationContext reactContext){
+    public RNNetPrinterModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
     }
@@ -27,7 +27,7 @@ public class RNNetPrinterModule extends ReactContextBaseJavaModule implements RN
     @Override
     public void init(Callback successCallback, Callback errorCallback) {
         this.adapter = NetPrinterAdapter.getInstance();
-        this.adapter.init(reactContext,  successCallback, errorCallback);
+        this.adapter.init(reactContext, successCallback, errorCallback);
     }
 
     @ReactMethod
@@ -62,8 +62,8 @@ public class RNNetPrinterModule extends ReactContextBaseJavaModule implements RN
 
     @ReactMethod
     @Override
-    public void printImage(String image,int width, Callback errorCallback) {
-        adapter.printImage(image,width, errorCallback);
+    public void printImage(String image, int width, boolean cutPaper, Callback errorCallback) {
+        adapter.printImage(image, width, cutPaper, errorCallback);
     }
 
     @Override
