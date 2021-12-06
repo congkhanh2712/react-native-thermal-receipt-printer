@@ -238,7 +238,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
     }
 
     @Override
-    public void printImage(String image, int width, boolean cutPaper, Callback successCallback, Callback errorCallback) {
+    public void printImage(String image, int width, boolean cutPaper, boolean openCashDrawer, Callback successCallback, Callback errorCallback) {
         if (this.mSocket == null) {
             errorCallback.invoke("bluetooth connection is not built, may be you forgot to connectPrinter");
             return;

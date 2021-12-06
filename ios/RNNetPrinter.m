@@ -235,14 +235,14 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         NSLog(@"Width  is - %i", imgWidth);
         NSLog(@"Height is - %i", imgHeight);
         NSInteger width = nWidth;//((int)(((nWidth*0.86)+7)/8))*8-7;
-        CGSize size = CGSizeMake(width, imgHeight*width/imgWidth);
-        UIImage *scaled = [self imageWithImage:jpgImage scaledToFillSize:size];
-        NSInteger imgHeightUpdate = scaled.size.height;
-        NSInteger imgWidthUpdate = scaled.size.width;
-        NSLog(@"Width  after scale is - %i", imgWidthUpdate);
-        NSLog(@"Height is - %i", imgHeightUpdate);
-        NSLog(@"Width  after scale 2 is  - %i", size.width);
-        NSLog(@"Height 2  is - %i", size.height);
+        // CGSize size = CGSizeMake(width, imgHeight*width/imgWidth);
+        // UIImage *scaled = [self imageWithImage:jpgImage scaledToFillSize:size];
+        // NSInteger imgHeightUpdate = scaled.size.height;
+        // NSInteger imgWidthUpdate = scaled.size.width;
+        // NSLog(@"Width  after scale is - %i", imgWidthUpdate);
+        // NSLog(@"Height is - %i", imgHeightUpdate);
+        // NSLog(@"Width  after scale 2 is  - %i", size.width);
+        // NSLog(@"Height 2  is - %i", size.height);
         // unsigned char * graImage = [self imageToGreyImage:scaled];
         // unsigned char * formatedData = [self format_K_threshold:graImage width: imgWidthUpdate height: imgHeightUpdate];
         // NSData *dataToPrint = [self eachLinePixToCmd:formatedData nWidth: imgWidthUpdate nHeight: imgHeightUpdate nMode:0];
@@ -251,10 +251,17 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
 //      NSString *hexToPrint = [self serializeDeviceToken: dataToPrint];
         // NSString *hexToPrint = [dataToPrint hexString];
         // NSLog(@"hexToPrint Image is - %@", hexToPrint);
-          [[PrinterSDK defaultPrinterSDK] setPrintWidth:width];
+          NSInteger len = imgHeight / 2001;
+        [[PrinterSDK defaultPrinterSDK] setPrintWidth:width];
+        [[PrinterSDK defaultPrinterSDK] sendHex:@"1B6101"];
           [[PrinterSDK defaultPrinterSDK] printImage:jpgImage];
            cut ? [[PrinterSDK defaultPrinterSDK] cutPaper] : nil;
-           successCallback(@[[NSString stringWithFormat:@"Print successfully"]]);
+           kick ? [[PrinterSDK defaultPrinterSDK] openCasher] : nil;
+           NSTimeInterval seconds = (len + 1) * 2.0;
+           dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(seconds * NSEC_PER_SEC));
+          dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            successCallback(@[[NSString stringWithFormat: @"%ld", (long)len*imgHeight]]);
+          });
 
     } @catch (NSException *exception) {
         errorCallback(@[exception.reason]);

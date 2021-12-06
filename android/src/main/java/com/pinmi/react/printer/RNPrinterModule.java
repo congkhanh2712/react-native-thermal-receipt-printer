@@ -32,5 +32,5 @@ public interface RNPrinterModule {
     public void printRawData(String base64Data, Callback errorCallback);
 
     @ReactMethod
-    public void printImage(String image, int width, boolean cutPaper, Callback successCallback, Callback errorCallback);
+    public void printImage(String image, int width, boolean cutPaper, boolean openCashDrawer,Callback successCallback, Callback errorCallback);
 }

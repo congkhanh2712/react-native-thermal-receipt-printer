@@ -210,7 +210,7 @@ export var NetPrinter = {
             });
         }
     },
-    printImage: function (data, width, cutPaper, onError) {
+    printImage: function (data, width, cutPaper, openCashDrawer, onError) {
         if (onError === void 0) { onError = function () { }; }
         if (Platform.OS === "ios") {
             // console.log('data in printImage: ', data, width)
@@ -219,8 +219,12 @@ export var NetPrinter = {
             //         onError(error);
             //     }
             // });
+            let kick = false;
+            if(openCashDrawer != ""){
+                kick = true;
+            }
             return new Promise(function (resolve, reject) {
-                return RNNetPrinter.printImage(data, { width, cutPaper }, function () { return resolve(); },function (error) { return reject(error); });
+                return RNNetPrinter.printImage(data, { width, cutPaper, openCashDrawer: kick, }, function () { return resolve(); },function (error) { return reject(error); });
             });
         }
         else {
@@ -230,8 +234,12 @@ export var NetPrinter = {
             //         onError(error);
             //     }
             // });
+            let kick = false;
+            if(openCashDrawer != ""){
+                kick = true;
+            }
             return new Promise(function (resolve, reject) {
-                return RNNetPrinter.printImage(data, width, cutPaper, function () { return resolve(); },function (error) { return reject(error); });
+                return RNNetPrinter.printImage(data, width, cutPaper, kick, function () { return resolve(); },function (error) { return reject(error); });
             });
         }
     }
