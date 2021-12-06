@@ -245,6 +245,8 @@ public class NetPrinterAdapter implements PrinterAdapter {
         }
         Log.v(LOG_TAG, "image is:  " + image);
         final boolean cut = cutPaper;
+        final boolean kickDrawer = openCashDrawer;
+        final Callback success = successCallback;
         byte[] decodeBase64ImageString = Base64.decode(image, Base64.DEFAULT);
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(decodeBase64ImageString, 0, decodeBase64ImageString.length);
         Log.d("NetPrinterModule", "decodeBase64ImageString is:  " + decodeBase64ImageString + " and bitmapImage: "
@@ -254,6 +256,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
             bitmapImage = resizeImage(bitmapImage, width, false);
             final byte[] cutPrinter = selectCutPagerModerAndCutPager(66, 1);
             final byte[] data = rasterBmpToSendData(0, bitmapImage, width);
+            final byte [] kick = new byte[] {27, 112, 48, 55, 121};
             final byte[] alignCenter = new byte[] { 27, 97, 1 };
             final Socket socket = this.mSocket;
             new Thread(new Runnable() {
@@ -266,8 +269,11 @@ public class NetPrinterAdapter implements PrinterAdapter {
                         if (cut == true) {
                             printerOutputStream.write(cutPrinter, 0, cutPrinter.length);
                         }
+                        if (kickDrawer == true){
+                            printerOutputStream.write(kick, 0, kick.length);
+                        }
                         printerOutputStream.flush();
-                        successCallback.invoke("Print successfully");
+                        success.invoke("Print successfully");
                     } catch (IOException e) {
                         Log.e(LOG_TAG, "failed to print image");
                         e.printStackTrace();
