@@ -218,6 +218,7 @@ RCT_EXPORT_METHOD(printHex:(NSString *)text
 }
 
 RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *) options
+                  success:(RCTResponseSenderBlock)successCallback
                   fail:(RCTResponseSenderBlock)errorCallback) {
     @try { 
         !connected_ip ? [NSException raise:@"Invalid connection" format:@"Can't connect to printer"] : nil;
@@ -253,6 +254,7 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
           [[PrinterSDK defaultPrinterSDK] setPrintWidth:width];
           [[PrinterSDK defaultPrinterSDK] printImage:jpgImage];
            cut ? [[PrinterSDK defaultPrinterSDK] cutPaper] : nil;
+           successCallback(@[[NSString stringWithFormat:@"Print successfully"]]);
 
     } @catch (NSException *exception) {
         errorCallback(@[exception.reason]);

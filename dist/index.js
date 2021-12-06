@@ -214,18 +214,24 @@ export var NetPrinter = {
         if (onError === void 0) { onError = function () { }; }
         if (Platform.OS === "ios") {
             // console.log('data in printImage: ', data, width)
-            RNNetPrinter.printImage(data, { width, cutPaper }, function (error) {
-                if (onError) {
-                    onError(error);
-                }
+            // RNNetPrinter.printImage(data, { width, cutPaper }, function (error) {
+            //     if (onError) {
+            //         onError(error);
+            //     }
+            // });
+            return new Promise(function (resolve, reject) {
+                return RNNetPrinter.printImage(data, { width, cutPaper }, function () { return resolve(); },function (error) { return reject(error); });
             });
         }
         else {
             // console.log('data in printImage: ', data, width)
-            RNNetPrinter.printImage(data, width, cutPaper, function (error) {
-                if (onError) {
-                    onError(error);
-                }
+            // RNNetPrinter.printImage(data, width, cutPaper, function (error) {
+            //     if (onError) {
+            //         onError(error);
+            //     }
+            // });
+            return new Promise(function (resolve, reject) {
+                return RNNetPrinter.printImage(data, width, cutPaper, function () { return resolve(); },function (error) { return reject(error); });
             });
         }
     }
