@@ -238,7 +238,8 @@ public class NetPrinterAdapter implements PrinterAdapter {
     }
 
     @Override
-    public void printImage(String image, int width, boolean cutPaper, boolean openCashDrawer, Callback successCallback, Callback errorCallback) {
+    public void printImage(String image, int width, boolean cutPaper, boolean openCashDrawer, Callback successCallback,
+            Callback errorCallback) {
         if (this.mSocket == null) {
             errorCallback.invoke("bluetooth connection is not built, may be you forgot to connectPrinter");
             return;
@@ -256,7 +257,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
             bitmapImage = resizeImage(bitmapImage, width, false);
             final byte[] cutPrinter = selectCutPagerModerAndCutPager(66, 1);
             final byte[] data = rasterBmpToSendData(0, bitmapImage, width);
-            final byte [] kick = new byte[] {27, 112, 48, 55, 121};
+            final byte[] kick = new byte[] { 27, 112, 48, 55, 121 };
             final byte[] alignCenter = new byte[] { 27, 97, 1 };
             final Socket socket = this.mSocket;
             new Thread(new Runnable() {
@@ -269,10 +270,15 @@ public class NetPrinterAdapter implements PrinterAdapter {
                         if (cut == true) {
                             printerOutputStream.write(cutPrinter, 0, cutPrinter.length);
                         }
-                        if (kickDrawer == true){
+                        if (kickDrawer == true) {
                             printerOutputStream.write(kick, 0, kick.length);
                         }
                         printerOutputStream.flush();
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
                         success.invoke("Print successfully");
                     } catch (IOException e) {
                         Log.e(LOG_TAG, "failed to print image");

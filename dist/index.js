@@ -224,7 +224,7 @@ export var NetPrinter = {
                 kick = true;
             }
             return new Promise(function (resolve, reject) {
-                return RNNetPrinter.printImage(data, { width, cutPaper, openCashDrawer: kick, }, function () { return resolve(); },function (error) { return reject(error); });
+                return RNNetPrinter.printImage(data, { width, cutPaper, openCashDrawer: kick, }, function (success) { return resolve(success); },function (error) { return reject(error); });
             });
         }
         else {
@@ -239,7 +239,7 @@ export var NetPrinter = {
                 kick = true;
             }
             return new Promise(function (resolve, reject) {
-                return RNNetPrinter.printImage(data, width, cutPaper, kick, function () { return resolve(); },function (error) { return reject(error); });
+                return RNNetPrinter.printImage(data, width, cutPaper, kick, function (success) { return resolve(success); },function (error) { return reject(error); });
             });
         }
     }
