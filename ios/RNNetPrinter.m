@@ -224,7 +224,9 @@ RCT_EXPORT_METHOD(printImage:(NSString *)base64Image withOptions:(NSDictionary *
         !connected_ip ? [NSException raise:@"Invalid connection" format:@"Can't connect to printer"] : nil;
         NSInteger nWidth = [[options valueForKey:@"width"] integerValue];
         NSNumber* cutPtr = [options valueForKey:@"cutPaper"];
+        NSNumber* openCashDrawer = [options valueForKey:@"openCashDrawer"];
         BOOL cut = (BOOL)[cutPtr intValue];
+        BOOL kick = (BOOL)[openCashDrawer intValue];
         NSData *data = [[NSData alloc]initWithBase64EncodedString:base64Image options:NSDataBase64DecodingIgnoreUnknownCharacters];
         UIImage *srcImage = [UIImage imageWithData:data scale:1];
         NSLog(@"The DeCoded String is - %@", data);
