@@ -301,6 +301,7 @@ public class NetPrinterAdapter implements PrinterAdapter {
         }
         final Callback success = successCallback;
         final byte[] kick = new byte[] { 27, 112, 48, 55, 121 };
+        final Socket socket = this.mSocket;
         new Thread(new Runnable() {
             @Override
             public void run() {
