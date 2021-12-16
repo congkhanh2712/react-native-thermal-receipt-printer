@@ -477,5 +477,17 @@ RCT_EXPORT_METHOD(closeConn) {
     }
 }
 
+RCT_EXPORT_METHOD(openCashDrawer:(RCTResponseSenderBlock)successCallback
+                  fail:(RCTResponseSenderBlock)errorCallback) {
+    @try { 
+        !connected_ip ? [NSException raise:@"Invalid connection" format:@"Can't connect to printer"] : nil;
+        [[PrinterSDK defaultPrinterSDK] openCasher];
+        successCallback(@[@"Open cash successful"]);
+
+    } @catch (NSException *exception) {
+        errorCallback(@[exception.reason]);
+    }
+}
+
 @end
 

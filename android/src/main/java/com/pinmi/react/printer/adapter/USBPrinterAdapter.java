@@ -226,5 +226,8 @@ public class USBPrinterAdapter implements PrinterAdapter {
 
     }
 
+    public void openCashDrawer(Callback successCallback, Callback errorCallback) {
+        
+    }
 
 }

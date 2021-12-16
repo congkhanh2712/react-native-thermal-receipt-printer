@@ -76,6 +76,12 @@ public class RNBLEPrinterModule extends ReactContextBaseJavaModule implements RN
         adapter.printImage(image, width, cutPaper, openCashDrawer, successCallback, errorCallback);
     }
 
+    @ReactMethod
+    @Override
+    public void openCashDrawer(Callback successCallback, Callback errorCallback) {
+        adapter.openCashDrawer(successCallback, errorCallback);
+    }
+
     @Override
     public String getName() {
         return "RNBLEPrinter";

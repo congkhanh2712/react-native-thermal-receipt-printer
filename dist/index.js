@@ -213,35 +213,28 @@ export var NetPrinter = {
     printImage: function (data, width, cutPaper, openCashDrawer, onError) {
         if (onError === void 0) { onError = function () { }; }
         if (Platform.OS === "ios") {
-            // console.log('data in printImage: ', data, width)
-            // RNNetPrinter.printImage(data, { width, cutPaper }, function (error) {
-            //     if (onError) {
-            //         onError(error);
-            //     }
-            // });
             let kick = false;
-            if(openCashDrawer != ""){
+            if (openCashDrawer != "") {
                 kick = true;
             }
             return new Promise(function (resolve, reject) {
-                return RNNetPrinter.printImage(data, { width, cutPaper, openCashDrawer: kick, }, function (success) { return resolve(success); },function (error) { return reject(error); });
+                return RNNetPrinter.printImage(data, { width, cutPaper, openCashDrawer: kick, }, function (success) { return resolve(success); }, function (error) { return reject(error); });
             });
         }
         else {
-            // console.log('data in printImage: ', data, width)
-            // RNNetPrinter.printImage(data, width, cutPaper, function (error) {
-            //     if (onError) {
-            //         onError(error);
-            //     }
-            // });
             let kick = false;
-            if(openCashDrawer != ""){
+            if (openCashDrawer != "") {
                 kick = true;
             }
             return new Promise(function (resolve, reject) {
-                return RNNetPrinter.printImage(data, width, cutPaper, kick, function (success) { return resolve(success); },function (error) { return reject(error); });
+                return RNNetPrinter.printImage(data, width, cutPaper, kick, function (success) { return resolve(success); }, function (error) { return reject(error); });
             });
         }
+    },
+    openCashDrawer: function () {
+        return new Promise(function (resolve, reject) {
+            return RNNetPrinter.openCashDrawer(function (success) { return resolve(success); }, function (error) { return reject(error); });
+        });
     }
 };
 export var NetPrinterEventEmitter = new NativeEventEmitter(RNNetPrinter);

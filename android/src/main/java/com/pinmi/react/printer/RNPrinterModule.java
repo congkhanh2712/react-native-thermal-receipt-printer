@@ -33,4 +33,7 @@ public interface RNPrinterModule {
 
     @ReactMethod
     public void printImage(String image, int width, boolean cutPaper, boolean openCashDrawer,Callback successCallback, Callback errorCallback);
+
+    @ReactMethod
+    public void openCashDrawer(Callback successCallback, Callback errorCallback);
 }

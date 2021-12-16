@@ -293,6 +293,30 @@ public class NetPrinterAdapter implements PrinterAdapter {
 
     }
 
+    @Override
+    public void openCashDrawer(Callback successCallback, Callback errorCallback) {
+        if (this.mSocket == null) {
+            errorCallback.invoke("bluetooth connection is not built, may be you forgot to connectPrinter");
+            return;
+        }
+        final Callback success = successCallback;
+        final byte[] kick = new byte[] { 27, 112, 48, 55, 121 };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OutputStream printerOutputStream = socket.getOutputStream();
+                    printerOutputStream.write(kick, 0, kick.length);
+                    printerOutputStream.flush();
+                    success.invoke("Open cash successfully");
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "failed to print image");
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
     public static byte[] initImageCommand(int bytesByLine, int bitmapHeight) {
         int xH = bytesByLine / 256, xL = bytesByLine - (xH * 256), yH = bitmapHeight / 256,
                 yL = bitmapHeight - (yH * 256);

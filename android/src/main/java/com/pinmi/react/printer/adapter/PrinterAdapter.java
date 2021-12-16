@@ -26,4 +26,6 @@ public interface PrinterAdapter {
     public void printRawData(String rawBase64Data, Callback errorCallback);
 
     public void printImage(String rawBase64Data, int width, boolean cutPaper, boolean openCashDrawer, Callback successCallback, Callback errorCallback);
+
+    public void openCashDrawer(Callback successCallback, Callback errorCallback);
 }
